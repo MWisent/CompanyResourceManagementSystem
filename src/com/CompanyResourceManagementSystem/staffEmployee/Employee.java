@@ -5,7 +5,6 @@ import java.time.LocalTime;
 import java.util.Objects;
 
 public class Employee extends Person {
-    private Position position;
     private LocalTime startingTime;
     private LocalTime finishingTime;
 
@@ -16,11 +15,14 @@ public class Employee extends Person {
     }
 
     public LocalTime getStartingTime() {
+
         return startingTime;
     }
 
     public void setStartingTime(LocalTime startingTime) {
-        this.startingTime = startingTime;
+        if (startingTime != null && startingTime.isBefore(finishingTime)) {
+            this.startingTime = startingTime;
+        }
     }
 
     public LocalTime getFinishingTime() {
@@ -28,7 +30,9 @@ public class Employee extends Person {
     }
 
     public void setFinishingTime(LocalTime finishingTime) {
-        this.finishingTime = finishingTime;
+        if (finishingTime != null && finishingTime.isAfter(startingTime)) {
+            this.finishingTime = finishingTime;
+        }
     }
 
     @Override
@@ -41,7 +45,7 @@ public class Employee extends Person {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return position == employee.position && Objects.equals(startingTime, employee.startingTime) && Objects.equals(finishingTime, employee.finishingTime);
+        return Objects.equals(startingTime, employee.startingTime) && Objects.equals(finishingTime, employee.finishingTime);
     }
 
     @Override

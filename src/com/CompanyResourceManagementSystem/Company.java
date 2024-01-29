@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Company {
     private List<Employee> employeesList;
@@ -39,6 +40,16 @@ public class Company {
         return employeesMap.get(employee);
     }
 
+    public List<Employee> findEmployeesByName(String name) {
+        return employeesList.stream().
+                filter(employee -> employee.getName().equalsIgnoreCase(name))
+                .collect(Collectors.toList());
+    }
+    public List<Employee> findEmployeesByNameAndSurname(String name, String surname) {
+        return employeesList.stream().
+                filter(employee -> employee.getName().equalsIgnoreCase(name) && employee.getSurname().equalsIgnoreCase(surname))
+                .collect(Collectors.toList());
+    }
     // Metoda zarządzające towarem
     public void addProduct(Product product) {
         productsList.add(product);
