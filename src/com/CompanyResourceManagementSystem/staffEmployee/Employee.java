@@ -10,6 +10,13 @@ public class Employee extends Person {
 
     public Employee(int id, String name, String surname, String termsOfReference, LocalTime startingTime, LocalTime finishingTime) {
         super(id, name, surname, termsOfReference);
+        if (startingTime == null || finishingTime == null) {
+
+            throw new IllegalArgumentException("Starting time and finishing time cannot be null");
+        }
+        if (finishingTime == null || startingTime == null) {
+            throw new IllegalArgumentException("Finishing time cannot be before starting time");
+        }
         this.startingTime = startingTime;
         this.finishingTime = finishingTime;
     }
@@ -20,9 +27,10 @@ public class Employee extends Person {
     }
 
     public void setStartingTime(LocalTime startingTime) {
-        if (startingTime != null && startingTime.isBefore(finishingTime)) {
-            this.startingTime = startingTime;
+        if (startingTime.isBefore(finishingTime)) {
+            throw new IllegalStateException("Starting time must be before finishing time");
         }
+        this.startingTime = startingTime;
     }
 
     public LocalTime getFinishingTime() {
@@ -30,9 +38,11 @@ public class Employee extends Person {
     }
 
     public void setFinishingTime(LocalTime finishingTime) {
-        if (finishingTime != null && finishingTime.isAfter(startingTime)) {
-            this.finishingTime = finishingTime;
+        if (finishingTime.isAfter(startingTime)) {
+            throw new IllegalStateException("Finishing time is not after " + finishingTime);
         }
+        this.finishingTime = finishingTime;
+
     }
 
     @Override

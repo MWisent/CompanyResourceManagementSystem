@@ -12,7 +12,9 @@ public class Product {
     private LocalDate bestBeforeDate;
 
     public Product(String name, Categories categories, int quantity, double price, LocalDate bestBeforeDate) {
-        this.name = name;
+        if (name == null || name.isEmpty()) {
+            this.name = name;
+        }
         this.categories = categories;
         this.quantity = quantity;
         this.price = price;

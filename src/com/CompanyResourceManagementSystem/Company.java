@@ -30,6 +30,9 @@ public class Company {
         employeesMap.put(employee.getId(), employee);
     }
     public void removeEmploy(Employee employee) {
+        if (employee == null || !employeesList.contains(employee)) {
+            throw new IllegalArgumentException("Employee cannot be null and must exist in the list");
+        }
         employeesList.remove(employee.getId());
         employeesMap.remove(employee.getId());
     }
@@ -41,11 +44,17 @@ public class Company {
     }
 
     public List<Employee> findEmployeesByName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null");
+        }
         return employeesList.stream().
                 filter(employee -> employee.getName().equalsIgnoreCase(name))
                 .collect(Collectors.toList());
     }
     public List<Employee> findEmployeesByNameAndSurname(String name, String surname) {
+        if (name == null || surname == null) {
+            throw new IllegalArgumentException("Name and surname cannot be null!");
+        }
         return employeesList.stream().
                 filter(employee -> employee.getName().equalsIgnoreCase(name) && employee.getSurname().equalsIgnoreCase(surname))
                 .collect(Collectors.toList());
@@ -56,12 +65,24 @@ public class Company {
         productsMap.put(product.getName(), product);
     }
     public void removeProduct(Product product) {
+        if (product == null || !employeesList.contains(product)) {
+            throw new IllegalArgumentException("Employee cannot be null and must exist in the list");
+        }
         productsList.remove(product);
         productsMap.remove(product);
     }
     public boolean getProduct(Product product) {
         return productsList.contains(product.getName());
     }
+    public Product searchProduct(Product product) {
+        return productsMap.get(product);
+    }
+    public List<Employee> findProductByName(String name) {
+        return employeesList.stream().
+                filter(employee -> employee.getName().equalsIgnoreCase(name))
+                .collect(Collectors.toList());
+    }
+    
     // Metody do generowania raportów
     public void generateEmployeeReport() {
         // Implementacja
